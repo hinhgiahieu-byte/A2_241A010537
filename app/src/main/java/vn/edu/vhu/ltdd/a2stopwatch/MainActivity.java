@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "A2_241A010537";
+    private static final String TAG = "A2_241A010537_Lifecycle";
 
     private static final String KEY_RUNNING = "running";
     private static final String KEY_ACCUMULATED = "accumulated";
