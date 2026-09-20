@@ -1,5 +1,6 @@
 package vn.edu.vhu.ltdd.a2stopwatch;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,15 +11,18 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.chip.Chip;
+
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    // Lab A2 - Quan ly vong doi va luu trang thai Activity
-    private static final String TAG = "A2_241A010537_Lifecycle";
+
+    private static final String TAG = "A2_241A010537";
 
     private static final String KEY_RUNNING = "running";
     private static final String KEY_ACCUMULATED = "accumulated";
@@ -26,15 +30,16 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_RECREATE = "recreate";
 
     private TextView tvTime, tvStatus, tvRecreate;
-    private Button btnStartPause, btnReset;
+    private Button btnStartPause, btnReset, btnTheme;
+
+    private Chip chipJava, chipDart, chipSQL, chipGit, chipUIUX;
 
     private boolean running = false;
     private long accumulated = 0L;
     private long startTime = 0L;
     private int recreateCount = 0;
 
-    private final Handler handler =
-            new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     private final Runnable ticker = new Runnable() {
         @Override
@@ -57,12 +62,14 @@ public class MainActivity extends AppCompatActivity {
                     Insets bars = insets.getInsets(
                             WindowInsetsCompat.Type.systemBars()
                     );
+
                     v.setPadding(
                             bars.left,
                             bars.top,
                             bars.right,
                             bars.bottom
                     );
+
                     return insets;
                 }
         );
@@ -73,13 +80,19 @@ public class MainActivity extends AppCompatActivity {
 
         btnStartPause = findViewById(R.id.btnStartPause);
         btnReset = findViewById(R.id.btnReset);
+        btnTheme = findViewById(R.id.btnTheme);
+
+        chipJava = findViewById(R.id.chipJava);
+        chipDart = findViewById(R.id.chipDart);
+        chipSQL = findViewById(R.id.chipSQL);
+        chipGit = findViewById(R.id.chipGit);
+        chipUIUX = findViewById(R.id.chipUIUX);
 
         if (savedInstanceState != null) {
 
             running = savedInstanceState.getBoolean(KEY_RUNNING);
             accumulated = savedInstanceState.getLong(KEY_ACCUMULATED);
             startTime = savedInstanceState.getLong(KEY_START);
-
             recreateCount =
                     savedInstanceState.getInt(KEY_RECREATE) + 1;
 
@@ -107,15 +120,60 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 startStopwatch();
             }
-
         });
 
         btnReset.setOnClickListener(v -> resetStopwatch());
 
+        // NC1: Dark / Light
+        btnTheme.setOnClickListener(v -> {
+
+            boolean isDark =
+                    (getResources().getConfiguration().uiMode
+                            & Configuration.UI_MODE_NIGHT_MASK)
+                            == Configuration.UI_MODE_NIGHT_YES;
+
+            if (isDark) {
+
+                AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_NO
+                );
+
+            } else {
+
+                AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_YES
+                );
+            }
+        });
+
+        // NC2: 5 FilterChip kỹ năng
+        chipJava.setOnCheckedChangeListener(
+                (buttonView, isChecked) ->
+                        Log.d(TAG, "Java: " + isChecked)
+        );
+
+        chipDart.setOnCheckedChangeListener(
+                (buttonView, isChecked) ->
+                        Log.d(TAG, "Dart: " + isChecked)
+        );
+
+        chipSQL.setOnCheckedChangeListener(
+                (buttonView, isChecked) ->
+                        Log.d(TAG, "SQL: " + isChecked)
+        );
+
+        chipGit.setOnCheckedChangeListener(
+                (buttonView, isChecked) ->
+                        Log.d(TAG, "Git: " + isChecked)
+        );
+
+        chipUIUX.setOnCheckedChangeListener(
+                (buttonView, isChecked) ->
+                        Log.d(TAG, "UI/UX: " + isChecked)
+        );
+
         updateUi();
     }
-
-    // ==================== LOGIC ĐỒNG HỒ ====================
 
     private long elapsed() {
 
@@ -130,11 +188,9 @@ public class MainActivity extends AppCompatActivity {
     private void startStopwatch() {
 
         running = true;
-
         startTime = SystemClock.elapsedRealtime();
 
         startTicking();
-
         updateUi();
 
         Log.i(TAG, "BẮT ĐẦU đếm giờ");
@@ -148,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
         running = false;
 
         stopTicking();
-
         updateUi();
 
         Log.i(
@@ -160,27 +215,18 @@ public class MainActivity extends AppCompatActivity {
     private void resetStopwatch() {
 
         running = false;
-
         accumulated = 0L;
-
         startTime = 0L;
 
         stopTicking();
-
         updateUi();
 
-        Log.i(
-                TAG,
-                "ĐẶT LẠI về 00:00.0"
-        );
+        Log.i(TAG, "ĐẶT LẠI về 00:00.0");
     }
-
-    // ==================== HANDLER ====================
 
     private void startTicking() {
 
         handler.removeCallbacks(ticker);
-
         handler.post(ticker);
     }
 
@@ -189,16 +235,12 @@ public class MainActivity extends AppCompatActivity {
         handler.removeCallbacks(ticker);
     }
 
-    // ==================== CẬP NHẬT GIAO DIỆN ====================
-
     private void updateTimeText() {
 
         long ms = elapsed();
 
         long phut = ms / 60000;
-
         long giay = (ms % 60000) / 1000;
-
         long phanMuoi = (ms % 1000) / 100;
 
         tvTime.setText(
@@ -236,13 +278,9 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    // ==================== VÒNG ĐỜI ACTIVITY ====================
-
     @Override
     protected void onStart() {
-
         super.onStart();
-
         Log.d(TAG, "onStart");
     }
 
@@ -251,16 +289,13 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
 
-        Log.d(
-                TAG,
-                "onResume – bật lại việc cập nhật giao diện nếu đồng hồ đang chạy"
-        );
-
         if (running) {
             startTicking();
         }
 
         updateUi();
+
+        Log.d(TAG, "onResume");
     }
 
     @Override
@@ -270,10 +305,7 @@ public class MainActivity extends AppCompatActivity {
 
         stopTicking();
 
-        Log.d(
-                TAG,
-                "onPause – tạm dừng cập nhật giao diện"
-        );
+        Log.d(TAG, "onPause");
     }
 
     @Override
@@ -302,32 +334,15 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    // ==================== LƯU TRẠNG THÁI ====================
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(
-                KEY_RUNNING,
-                running
-        );
-
-        outState.putLong(
-                KEY_ACCUMULATED,
-                accumulated
-        );
-
-        outState.putLong(
-                KEY_START,
-                startTime
-        );
-
-        outState.putInt(
-                KEY_RECREATE,
-                recreateCount
-        );
+        outState.putBoolean(KEY_RUNNING, running);
+        outState.putLong(KEY_ACCUMULATED, accumulated);
+        outState.putLong(KEY_START, startTime);
+        outState.putInt(KEY_RECREATE, recreateCount);
 
         Log.d(
                 TAG,
@@ -342,13 +357,11 @@ public class MainActivity extends AppCompatActivity {
             Bundle savedInstanceState
     ) {
 
-        super.onRestoreInstanceState(
-                savedInstanceState
-        );
+        super.onRestoreInstanceState(savedInstanceState);
 
         Log.d(
                 TAG,
-                "onRestoreInstanceState – được gọi sau onStart()"
+                "onRestoreInstanceState"
         );
     }
 }
