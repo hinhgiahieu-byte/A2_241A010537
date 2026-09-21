@@ -79,8 +79,7 @@ Hình 4. Git Log của project với ít nhất 3 commits.
 
 Hình 5. Repository Lab A2 trên GitHub.
 
-Link Repository:
-DÁN LINK GITHUB CỦA BẠN
+Link Repository:https://github.com/hinhgiahieu-byte/A2_241A010537.git
 
 7. Phần nâng cao
 
