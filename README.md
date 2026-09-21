@@ -75,11 +75,12 @@ Có .gitignore
 
 Hình 4. Git Log của project với ít nhất 3 commits.
 
-[CHÈN Hình 5 – GitHub Repository]
+<img width="502" height="406" alt="image" src="https://github.com/user-attachments/assets/b6e3ec66-8e77-4cab-b37d-b3c964155be1" />
+
 
 Hình 5. Repository Lab A2 trên GitHub.
 
-Link Repository:https://github.com/hinhgiahieu-byte/A2_241A010537.git
+Link Repository: https://github.com/hinhgiahieu-byte/A2_241A010537.git
 
 7. Phần nâng cao
 
@@ -89,13 +90,15 @@ NC1 – Nút Vòng (Lap)
 
 Thêm nút Lap để lưu và hiển thị các mốc thời gian trong quá trình chạy Stopwatch.
 
-[CHÈN Hình 6 – Chức năng Lap]
+<img width="555" height="863" alt="Ảnh chụp màn hình 2026-09-21 222930" src="https://github.com/user-attachments/assets/27958387-91b6-4f2d-a654-1c4fd3fc87a2" />
 
 NC2 – Dừng khi ra nền
 
 Thêm Checkbox “Dừng khi ra nền”. Khi được chọn, Stopwatch sẽ tạm dừng khi ứng dụng chuyển xuống nền và trạng thái Checkbox được lưu khi Activity tạo lại.
 
-[CHÈN Hình 7 – Checkbox Dừng khi ra nền]
+<img width="482" height="918" alt="Ảnh chụp màn hình 2026-09-21 223456" src="https://github.com/user-attachments/assets/f879c94d-9f83-4873-8dff-bf2653e7c69d" />
+<img width="465" height="853" alt="Ảnh chụp màn hình 2026-09-21 223601" src="https://github.com/user-attachments/assets/cbe971a6-31cc-422b-8a6b-d8eb725a88db" />
+<img width="456" height="932" alt="Ảnh chụp màn hình 2026-09-21 223552" src="https://github.com/user-attachments/assets/cafddb71-6d9d-4d1a-a59c-fc5b65dae6c8" />
 
 8. Kết luận
 
